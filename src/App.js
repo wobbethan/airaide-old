@@ -1,11 +1,9 @@
 import './App.css';
-
+import GraphMenu from './graphMenu.js'
 
 function App() {
   return (
-    <div className="App">
-
-    </div>
+    <GraphMenu/>
   );
 }
 
