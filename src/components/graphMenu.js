@@ -4,13 +4,29 @@ import ReactSlider from 'react-slider'
 function GraphMenu(props) {
 
   //Constants
+  
+  //Text Boxes
     const [airline, setAirline] = useState("")
     const [airportStart, setAirportStart] = useState("")
     const [airportEnd, setAirportEnd] = useState("")
     const [flightNum, setFlightNum] = useState(0)
 
+  //Condition Check Boxes
+    const [cancelled, setCanceled] = useState(false)
+    const [international, setInternational] = useState(false)
+    const [domestic, setDomestic] = useState(false)
+    const [diverted, setDiverted] = useState(false)
+
+    //Consition Check box handlers
+    const handleCancel = () => setCanceled(!cancelled)
+    const handleIntern= () => setInternational(!international)
+    const handleDomes = () => setDomestic(!domestic)
+    const handleDivert = () => setDiverted(!diverted)
+
+
+
     const generateButtonPressed = () => {
-      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum})
+      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum, cancelled: cancelled, international: international, domestic: domestic, diverted: diverted})
 
     }
 
@@ -66,19 +82,19 @@ function GraphMenu(props) {
         <h2>Conditions</h2>
 
         <label>
-            <input type = "checkbox"/>
+            <input onClick={handleCancel} value={cancelled} type = "checkbox"/>
             Flight Cancelled
         </label>
         <label>
-            <input type = "checkbox"/>
+            <input onClick={handleDivert} value={diverted} type = "checkbox"/>
             Diverted Flights
         </label>
         <label>
-            <input type = "checkbox"/>
+            <input onClick={handleDomes} value={domestic} type = "checkbox"/>
             Domestic Flights
         </label>
         <label>
-            <input type = "checkbox"/>
+            <input onClick={handleIntern} value={international} type = "checkbox"/>
             International Flights
         </label>
         <form>
