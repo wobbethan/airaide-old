@@ -13,20 +13,18 @@ function GraphMenu(props) {
 
   //Condition Check Boxes
     const [cancelled, setCanceled] = useState(false)
-    const [international, setInternational] = useState(false)
-    const [domestic, setDomestic] = useState(false)
+
     const [diverted, setDiverted] = useState(false)
 
     //Consition Check box handlers
     const handleCancel = () => setCanceled(!cancelled)
-    const handleIntern= () => setInternational(!international)
-    const handleDomes = () => setDomestic(!domestic)
+  
     const handleDivert = () => setDiverted(!diverted)
 
 
 
     const generateButtonPressed = () => {
-      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum, cancelled: cancelled, international: international, domestic: domestic, diverted: diverted})
+      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum, cancelled: cancelled, diverted: diverted})
 
     }
 
@@ -36,7 +34,7 @@ function GraphMenu(props) {
     <div>
       <h1 className="d-flex justify-content-center">Menu</h1>
       
-      <h2>Delay Type (Y-axis | Up to 5 curves )</h2>
+      <h2>Delay Type (Y-axis | Up to 6 curves )</h2>
       <div>
       <label>
             <input type = "checkbox"/>
@@ -57,6 +55,10 @@ function GraphMenu(props) {
         <label>
             <input type = "checkbox"/>
             Late-Aircraft Delay
+        </label>
+        <label>
+            <input type = "checkbox"/>
+            Total Delay Time
         </label>
 
        
@@ -82,21 +84,14 @@ function GraphMenu(props) {
         <h2>Conditions</h2>
 
         <label>
-            <input onClick={handleCancel} value={cancelled} type = "checkbox"/>
+            <input onChange={handleCancel} value={cancelled} type = "checkbox"/>
             Flight Cancelled
         </label>
         <label>
-            <input onClick={handleDivert} value={diverted} type = "checkbox"/>
+            <input onChange={handleDivert} value={diverted} type = "checkbox"/>
             Diverted Flights
         </label>
-        <label>
-            <input onClick={handleDomes} value={domestic} type = "checkbox"/>
-            Domestic Flights
-        </label>
-        <label>
-            <input onClick={handleIntern} value={international} type = "checkbox"/>
-            International Flights
-        </label>
+        
         <form>
               <label htmlFor="airline-field">Airline code:</label>
               <input id="airline-field"  type="text" value ={airline} onChange={(e) => setAirline(e.target.value)}></input>
