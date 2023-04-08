@@ -5,6 +5,11 @@ function GraphMenu(props) {
 
   //Constants
   
+    //Slider
+    const [multiValue, setMultiValue] = useState([2009, 2018]);
+    const changeMultiValue = (event, value) => {
+      setMultiValue(event, value);
+    };
     //Text Boxes
     const [airline, setAirline] = useState("")
     const [airportStart, setAirportStart] = useState("")
@@ -86,6 +91,8 @@ function GraphMenu(props) {
           minDistance={0}
           min ={2009}
           max ={2018}
+          value={multiValue}
+          onChange={changeMultiValue}
 
       />
       </div>
@@ -127,7 +134,7 @@ function GraphMenu(props) {
       <p>FROM (</p>
         <p>SELECT Month, total_delay as TIME</p>
         <p>FROM flights JOIN delays ON flights.key = delays.key</p>
-        <p>WHERE flightdate &#62;= '01/01/{2009}' AND flightdate &#60;='12/31/{2018}' {airline === "" ? "" :<>AND airline_code = {airline}</>} {airportStart === "" ? "" :<>AND airport_start = '{airportStart}'</>} {airportEnd === "" ? "" :<>AND airport_end = '{airportEnd}'</>} {flightNum === "" ? "" :<>AND Flight_Number = {flightNum}</>} AND flight_cancellation = {cancelled} AND flight_diverted = {diverted}</p>
+        <p>WHERE flightdate &#62;= '01/01/{multiValue[0]}' AND flightdate &#60;='12/31/{multiValue[1]}' {airline === "" ? "" :<>AND airline_code = '{airline}'</>} {airportStart === "" ? "" :<>AND airport_start = '{airportStart}'</>} {airportEnd === "" ? "" :<>AND airport_end = '{airportEnd}'</>} {flightNum === "" ? "" :<>AND Flight_Number = {flightNum}</>} AND flight_cancellation = {cancelled} AND flight_diverted = {diverted}</p>
         <p>)</p>
         <p>Group by Month</p>
         <p>Order by Month asc;</p>
