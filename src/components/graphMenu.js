@@ -5,26 +5,32 @@ function GraphMenu(props) {
 
   //Constants
   
-  //Text Boxes
+    //Text Boxes
     const [airline, setAirline] = useState("")
     const [airportStart, setAirportStart] = useState("")
     const [airportEnd, setAirportEnd] = useState("")
-    const [flightNum, setFlightNum] = useState(0)
+    const [flightNum, setFlightNum] = useState("")
 
-  //Condition Check Boxes
-    const [cancelled, setCanceled] = useState(false)
+    //Condition Check Boxes
+    const [cancelled, setCanceled] = useState(0)
+    const [diverted, setDiverted] = useState(0)
+    const [devTools, setDevtools] = useState(0)
 
-    const [diverted, setDiverted] = useState(false)
+
+    //return
+    var injectedCode
+
 
     //Consition Check box handlers
-    const handleCancel = () => setCanceled(!cancelled)
-  
-    const handleDivert = () => setDiverted(!diverted)
+    const handleCancel = () => {cancelled ? setCanceled(0): setCanceled(1); }
+    const handleDivert = () => {diverted ? setDiverted(0): setDiverted(1); }
+    const handleTools = () => {devTools ? setDevtools(0): setDevtools(1); }
 
 
 
     const generateButtonPressed = () => {
-      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum, cancelled: cancelled, diverted: diverted})
+      injectedCode = ("Select Month, SUM(TIME) FROM (SELECT Month, total_delay as TIME FROM flights JOIN delays ON flights.key = delays.key WHERE flightdate >= '01/01/2009' AND flightdate <='12/31/2018') Group by Month Order by Month asc;" )
+      props.callback({airline: airline, airportStart: airportStart, airportEnd: airportEnd, flightNum: flightNum, cancelled: cancelled, diverted: diverted, injectedCode: injectedCode})
 
     }
 
@@ -60,7 +66,10 @@ function GraphMenu(props) {
             <input type = "checkbox"/>
             Total Delay Time
         </label>
-
+        <label>
+            <input type = "checkbox" onChange={handleTools}/>
+            Devloper Tools
+        </label>
        
       </div>
       <div>
@@ -108,7 +117,26 @@ function GraphMenu(props) {
 
         <button type="button" onClick={generateButtonPressed}>Generate</button>
 
+      </div> 
+
+      {/*Query Construction*/}
+      <div style={{display: devTools? "block": "none"}}>
+      <h2>-------------------------------------------------------------------------</h2>
+      <p>
+      Select Month, SUM(TIME)
+      <p>FROM (</p>
+        <p>SELECT Month, total_delay as TIME</p>
+        <p>FROM flights JOIN delays ON flights.key = delays.key</p>
+        <p>WHERE flightdate &#62;= '01/01/{2009}' AND flightdate &#60;='12/31/{2018}' {airline === "" ? "" :<>AND airline_code = {airline}</>} {airportStart === "" ? "" :<>AND airport_start = '{airportStart}'</>} {airportEnd === "" ? "" :<>AND airport_end = '{airportEnd}'</>} {flightNum === "" ? "" :<>AND Flight_Number = {flightNum}</>} AND flight_cancellation = {cancelled} AND flight_diverted = {diverted}</p>
+        <p>)</p>
+        <p>Group by Month</p>
+        <p>Order by Month asc;</p>
+      </p>
+      <h2>-------------------------------------------------------------------------</h2>
+
       </div>
+    
+      
 
     </div>
 
