@@ -23,7 +23,8 @@ function GraphMenu(props) {
 
 
     //return
-    var injectedCode
+    var injectedCode1
+    var injectedCode2
 
 
     //Consition Check box handlers
@@ -40,8 +41,9 @@ function GraphMenu(props) {
       if (airportEnd === "") {var airportEndVal = ""}else{airportEndVal = "AND airport_end = '"+airportEnd+"'"}
       if (flightNum === "") {var flightNumVal = ""}else{flightNumVal = "AND flight_Number = '"+flightNum+"'"}
 
-      injectedCode = ("Select Month, SUM(TIME) FROM (SELECT Month, total_delay as TIME FROM flights JOIN delays ON flights.key = delays.key WHERE flightdate >= '01/01/"+multiValue[0]+"' AND flightdate <='12/31/"+multiValue[1]+"' "+airlineVal +" " + airportStartVal+" " + airportEndVal+" " + flightNumVal + " AND flight_cancellation = "+cancelled+" AND flight_diverted = "+diverted)
-      props.callback({injectedCode: injectedCode})
+      injectedCode1 = ("Select Month, SUM(TIME) FROM (SELECT Month, ")
+      injectedCode2 = (" as TIME FROM flights JOIN delays ON flights.key = delays.key WHERE flightdate >= '01/01/"+multiValue[0]+"' AND flightdate <='12/31/"+multiValue[1]+"' "+airlineVal +" " + airportStartVal+" " + airportEndVal+" " + flightNumVal + " AND flight_cancellation = "+cancelled+" AND flight_diverted = "+diverted+ ") Group by Month Order by Month asc;")
+      props.callback({injectedCode1: injectedCode1, injectedCode2: injectedCode2})
 
     }
 

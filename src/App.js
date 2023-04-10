@@ -3,6 +3,8 @@ import GraphMenu from './components/graphMenu.js'
 import Login from './components/login'
 import Graphdisplay from './components/graph'
 import Profile from './components/profile'
+import Oracle from './components/oracleInteraction'
+
 import { useState } from 'react';
 
 //import background from './assets/planebg.png'
@@ -28,7 +30,7 @@ function App() {
       <Login/>
       <Profile/>
       <GraphMenu callback={updateFilters}/>
-      <p>Injected Code: {"injectedCode" in filters? filters["injectedCode"] : "Fail"}</p>
+      <Oracle inject1 = {"injectedCode1" in filters? filters["injectedCode1"] : "Fail"} inject2 = {"injectedCode2" in filters? filters["injectedCode2"] : "Fail"}/>
       <Graphdisplay/>
       </div>
 
