@@ -20,17 +20,19 @@ function GraphMenu(props) {
     const [cancelled, setCanceled] = useState(0)
     const [diverted, setDiverted] = useState(0)
     const [devTools, setDevtools] = useState(0)
+    const [num, setNum] = useState(0)
 
 
     //return
-    var injectedCode1
-    var injectedCode2
+    const [injected1, setInject1] = useState("")
+    const [injected2, setInject2] = useState("")
 
 
     //Consition Check box handlers
     const handleCancel = () => {cancelled ? setCanceled(0): setCanceled(1); }
     const handleDivert = () => {diverted ? setDiverted(0): setDiverted(1); }
     const handleTools = () => {devTools ? setDevtools(0): setDevtools(1); }
+    const handleNumber = () => {num ? setNum(0): setNum(1); }
 
 
 
@@ -40,10 +42,11 @@ function GraphMenu(props) {
       if (airportStart === "") {var airportStartVal = ""}else{airportStartVal = "AND airport_start = '"+airportStart+"'"}
       if (airportEnd === "") {var airportEndVal = ""}else{airportEndVal = "AND airport_end = '"+airportEnd+"'"}
       if (flightNum === "") {var flightNumVal = ""}else{flightNumVal = "AND flight_Number = '"+flightNum+"'"}
+      if (num === 0) {var numVal = "COUNT("}else{numVal = "SUM("}
 
-      injectedCode1 = ("Select Month, SUM(TIME) FROM (SELECT Month, ")
-      injectedCode2 = (" as TIME FROM flights JOIN delays ON flights.key = delays.key WHERE flightdate >= '01/01/"+multiValue[0]+"' AND flightdate <='12/31/"+multiValue[1]+"' "+airlineVal +" " + airportStartVal+" " + airportEndVal+" " + flightNumVal + " AND flight_cancellation = "+cancelled+" AND flight_diverted = "+diverted+ ") Group by Month Order by Month asc;")
-      props.callback({injectedCode1: injectedCode1, injectedCode2: injectedCode2})
+      setInject1("Select Month, "+numVal+"TIME) FROM (SELECT Month, ")
+      setInject2(" as TIME FROM flights JOIN delays ON flights.key = delays.key WHERE flightdate >= '01/01/"+multiValue[0]+"' AND flightdate <='12/31/"+multiValue[1]+"' "+airlineVal +" " + airportStartVal+" " + airportEndVal+" " + flightNumVal + " AND flight_cancellation = "+cancelled+" AND flight_diverted = "+diverted+ ") Group by Month Order by Month asc;")
+      props.callback({injectedCode1: injected1, injectedCode2: injected2})
 
     }
 
@@ -82,6 +85,10 @@ function GraphMenu(props) {
         <label>
             <input type = "checkbox" onChange={handleTools}/>
             Devloper Tools
+        </label>
+        <label>
+            <input type = "checkbox" onChange={handleNumber}/>
+            Display Total Minutes
         </label>
        
       </div>
@@ -136,9 +143,9 @@ function GraphMenu(props) {
 
       {/*Query Construction*/}
       <div style={{display: devTools? "block": "none"}}>
-      <h2>-------------------------------------------------------------------------</h2>
+      <h1>-------------------------------------------------------------------------</h1>
       <p>
-      Select Month, SUM(TIME)
+      Select Month, {num === 0 ? "COUNT(" : "SUM("}Time&#x29;
       <p>FROM (</p>
         <p>SELECT Month, total_delay as TIME</p>
         <p>FROM flights JOIN delays ON flights.key = delays.key</p>
@@ -147,7 +154,11 @@ function GraphMenu(props) {
         <p>Group by Month</p>
         <p>Order by Month asc;</p>
       </p>
-      <h2>-------------------------------------------------------------------------</h2>
+      <h3>Injected1: {injected1}</h3>
+      <h3>Here delay type gets entered</h3>
+      <h3>Injected2: {injected2}</h3>
+
+      <h1>-------------------------------------------------------------------------</h1>
 
       </div>
     
