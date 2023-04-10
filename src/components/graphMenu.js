@@ -154,9 +154,10 @@ function GraphMenu(props) {
         <p>Group by Month</p>
         <p>Order by Month asc;</p>
       </p>
-      <h3>Injected1: {injected1}</h3>
-      <h3>Here delay type gets entered</h3>
-      <h3>Injected2: {injected2}</h3>
+      <p>--------------------------------------------------------------------------------------------------------------------------------------------------</p>
+      <p>Injected1: {injected1}</p>
+      <p>Here delay type gets entered</p>
+      <p>Injected2: {injected2}</p>
 
       <h1>-------------------------------------------------------------------------</h1>
 
